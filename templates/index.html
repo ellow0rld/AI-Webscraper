@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='design.css') }}">
+    <title>News</title>
+</head>
+<body>
+<h1> Upcoming Events </h1>
+<br>
+<input type="text"
+               id="searchInput"
+               placeholder="Search...">
+ 
+<span id="noMatch" style="display:none;">
+            No matching data is found !
+        </span>
+
+<script>
+    // For creating table
+    let tableArr = {{ datas | tojson }};
+    let table = document.createElement('table');
+    table.id = "dataTable";
+    for (let row of tableArr) {
+       let c = 0;
+      table.insertRow();
+      row.className = "rcell";
+      for (let cell of row) {
+        let newCell = table.rows[table.rows.length - 1].insertCell();
+        newCell.className = "dcell";
+        c = c + 1;
+        if (c == 6){
+            if (cell !== 'NA' && cell !== 'Link') {
+                newCell.innerHTML=  '<a href="'+cell+'">'+cell+'</a>';
+                }
+            else {
+                newCell.textContent = cell;
+               }
+        }
+        else {
+        newCell.textContent = cell;
+        }
+      }
+    }
+    document.body.appendChild(table);
+</script>
+
+<script>
+    // For filtering
+    let input = document.getElementById('searchInput');
+    let table = document.getElementById('dataTable');
+    let rows = table.getElementsByClassName('rcell');
+    let noMatchMessage = document.getElementById('noMatch');
+
+    input.addEventListener('input', function () {
+        let filter = input.value.toLowerCase();
+        let matchFound = false;
+
+        for (let i = 1; i < rows.length; i++) {
+            let row = rows[i];
+            let cells = row.getElementsByClassName('dcell');
+            let found = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                let cell = cells[j];
+                if (cell.textContent.toLowerCase().indexOf(filter) > -1) {
+                    found = true;
+                    matchFound = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        if (!matchFound) {
+            noMatchMessage.style.display = 'block';
+        } else {
+            noMatchMessage.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>
