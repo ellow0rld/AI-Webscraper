@@ -11,13 +11,10 @@
 <input type="text"
                id="searchInput"
                placeholder="Search...">
- 
-<span id="noMatch" style="display:none;">
+ <span id="noMatch" style="display:none;">
             No matching data is found !
         </span>
-
 <script>
-    // For creating table
     let tableArr = {{ datas | tojson }};
     let table = document.createElement('table');
     table.id = "dataTable";
@@ -46,24 +43,21 @@
 </script>
 
 <script>
-    // For filtering
     let input = document.getElementById('searchInput');
-    let table = document.getElementById('dataTable');
-    let rows = table.getElementsByClassName('rcell');
+    let mytable = document.getElementById('dataTable');
+    let rows = mytable.getElementsByTagName('tr');
     let noMatchMessage = document.getElementById('noMatch');
 
     input.addEventListener('input', function () {
         let filter = input.value.toLowerCase();
         let matchFound = false;
-
         for (let i = 1; i < rows.length; i++) {
-            let row = rows[i];
-            let cells = row.getElementsByClassName('dcell');
+            let r = rows[i];
+            let cells = r.getElementsByTagName('td');
             let found = false;
-
             for (let j = 0; j < cells.length; j++) {
-                let cell = cells[j];
-                if (cell.textContent.toLowerCase().indexOf(filter) > -1) {
+                let ce = cells[j];
+                if (ce.textContent.toLowerCase().indexOf(filter) > -1) {
                     found = true;
                     matchFound = true;
                     break;
@@ -71,9 +65,9 @@
             }
 
             if (found) {
-                row.style.display = '';
+                r.style.display = '';
             } else {
-                row.style.display = 'none';
+                r.style.display = 'none';
             }
         }
 
