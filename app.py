@@ -91,7 +91,7 @@ def fetch():
                     db.collection.insert_one(data)
                 except:
                     break
-
+fetch()
 @app.route('/')
 def home():
     client = MongoClient("localhost", 27017)
