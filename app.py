@@ -11,7 +11,7 @@ app = Flask(__name__, static_url_path='/static')
 nest_asyncio.apply()
 
 # Google API Key
-GOOGLE_API_KEY = "AIzaSyCwoNY7QSGd4o4Y-vBdHmoG6t3zSpHIWlM"
+GOOGLE_API_KEY = "*****"
 model = genai.GenerativeModel('gemini-1.5-flash')
 genai.configure(api_key = GOOGLE_API_KEY)
 
